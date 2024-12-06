@@ -10,7 +10,7 @@ def test_weather_api_valid_city():
 
 
 def test_weather_api_invalid_city():
-    api = WeatherAPI("some incorrect api key")
-    result = api.fetch_weather("London")
+    api = WeatherAPI("de4dfcfd5ab05531b01c5bcd9c923e3c")
+    result = api.fetch_weather("zebra ville")
     assert "error" in result
     assert result["error"] == 404
