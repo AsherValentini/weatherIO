@@ -38,7 +38,7 @@ class WeatherAppView(QMainWindow):
     def fetch_weather(self):
         city = self.city_input.text()
         if city:
-            result = self.controller.get_weather(city)
+            status_code, result = self.controller.get_weather(city)
             if "error" in result:
                 self.result_label.setText(f"Error: {result['error']}")
             else:
