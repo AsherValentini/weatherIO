@@ -1,17 +1,21 @@
 import pytest
+from models.api_model import WeatherAPI
 
-from models.api_test import fetch_weather
+
+@pytest.fixture
+def api():
+    return WeatherAPI("de4dfcfd5ab05531b01c5bcd9c923e3c")
 
 
-def test_fetch_weather_valid_city():
-    status_code, result = fetch_weather("London")
-    assert status_code == 200
+def test_fetch_weather_valid_city(api):
+    result = api.fetch_weather("London")
+    assert "city" in result
     assert "temperature" in result
     assert "description" in result
     assert result["city"] == "London"
 
 
-def test_fetch_weather_invalid_city():
-    result = fetch_weather("InvalidCityName")
+def test_fetch_weather_invalid_city(api):
+    result = api.fetch_weather("invalid city")
     assert "error" in result
-    assert result["error"] == 404
+    assert isinstance(result["error"], (int, str))

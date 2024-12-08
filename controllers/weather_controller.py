@@ -2,8 +2,27 @@ from models.api_model import WeatherAPI
 
 
 class WeatherController:
+    """
+    The controller class that bridges the view and the weatherAPI modules.
+
+    Attributes:
+        api (WeatherAPI): The WeatherAPI instance for fetching weather data.
+    """
+
     def __init__(self):
+        """
+        Initializes the WeatherController with the WeatherAPI instance.
+        """
         self.api = WeatherAPI("de4dfcfd5ab05531b01c5bcd9c923e3c")
 
     def get_weather(self, city):
+        """
+        Fetches weather data for a given city via the WeatherAPI.
+
+        Args:
+            city(str): the city to fetch weather data for.
+
+        Returns:
+            dict: Weather data or error data.
+        """
         return self.api.fetch_weather(city)
