@@ -1,4 +1,8 @@
+import logging
 from models.api_model import WeatherAPI
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class WeatherController:
@@ -25,4 +29,5 @@ class WeatherController:
         Returns:
             dict: Weather data or error data.
         """
+        logger.info(f"Fetching weather for {city}")
         return await self.api.fetch_weather(city)
