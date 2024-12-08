@@ -15,7 +15,7 @@ class WeatherController:
         """
         self.api = WeatherAPI("de4dfcfd5ab05531b01c5bcd9c923e3c")
 
-    def get_weather(self, city):
+    async def get_weather(self, city: str):
         """
         Fetches weather data for a given city via the WeatherAPI.
 
@@ -25,4 +25,4 @@ class WeatherController:
         Returns:
             dict: Weather data or error data.
         """
-        return self.api.fetch_weather(city)
+        return await self.api.fetch_weather(city)
