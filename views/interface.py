@@ -8,6 +8,8 @@ from PyQt5.QtWidgets import (
     QPushButton,
 )
 
+import asyncio
+
 
 class WeatherAppView(QMainWindow):
     def __init__(self, controller):
@@ -38,15 +40,18 @@ class WeatherAppView(QMainWindow):
     def fetch_weather(self):
         city = self.city_input.text()
         if city:
-            status_code, result = self.controller.get_weather(city)
-            if "error" in result:
-                self.result_label.setText(f"Error: {result['error']}")
-            else:
-                self.result_label.setText(
-                    f"City: {result['city']}\n"
-                    f"Temperature: {result['temperature']}°C\n"
-                    f"Description: {result['description']}"
-                )
+            asyncio.run(self._fetch_weather_async(city))
+
+    async def _fetch_weather_async(self, city):
+        result = await self.controller.get_weather(city)
+        if "error" in result:
+            self.result_label.setText(f"Error: {result['error']}")
+        else:
+            self.result_label.setText(
+                f"City: {result['city']}\n"
+                f"Temperature: {result['temperature']}°C\n"
+                f"Description: {result['description']}"
+            )
 
 
 if __name__ == "__main__":
