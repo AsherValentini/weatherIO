@@ -1,5 +1,10 @@
 import aiohttp
 from typing import Dict, Union
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class WeatherAPI:
@@ -45,6 +50,7 @@ class WeatherAPI:
                         data = await response.json()
                         main = data["main"]
                         weather = data["weather"][0]
+                        logger.info(f"Successfull fetched weather for {city}")
                         return {
                             "city": city,
                             "temperature": main["temp"],
@@ -54,7 +60,9 @@ class WeatherAPI:
                         return {"error": response.status}
             except aiohttp.ClientResponseError as http_err:
                 # Return HTTP error code
+                logger.info(f"API request failed: {http_err}")
                 return {"error": http_err.status}
             except aiohttp.ClientError as req_err:
                 # Return string error message for non-HTTP issues
+                logger.info("API request failed: {req_err}")
                 return {"error": f"Request failed: {str(req_err)}"}
